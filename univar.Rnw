@@ -1,0 +1,23 @@
+
+% !Rnw root = exam.Rnw
+
+\textbf{Analyse univariée}
+
+\begin{itemize}
+  \item Quelle est la nature des variables étudiées?
+  \item Avec les mesures de centralité et de dispersion, déduire la forme de distribution de ces deux variables.
+  \item Avec les mesures de centralité et de dispersion indiquées dans le tableau ainsi que d'autres indicateurs pouvant être déduits de ces mesures de centralité et de dispersion, dire quelle(s) variable(s) présente(nt) le plus d’hétérogénéité (ou variabilité, ou inégalité).
+  \item Quels facteurs sociaux et spatiaux pourraient être proposés pour expliquer la variation (forme de distribution, centralité, dispersion) de ces variables?
+\end{itemize}
+
+<<univar1, echo=FALSE, results='markup', warning=FALSE, message=FALSE, cache=FALSE>>=
+kable(UnivarDescription(df = readData(), varquanti = input$varuni))
+@
+
+<<univar2, echo=FALSE, results='markup', dev="my_png", fig.ext="png", warning=FALSE, message=FALSE, cache=FALSE>>=
+for(i in 1:length(input$varuni)){
+  print(Histogram(df = readData(), varquanti = input$varuni[i]))
+}
+@
+
+~

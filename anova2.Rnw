@@ -1,0 +1,25 @@
+
+% !Rnw root = exam.Rnw
+
+\textbf{ANOVA à deux facteurs}
+
+\begin{itemize}
+  \item Quel est le type des variables; quel est le type d'analyse?
+  \item Comment doit-on lire les tableaux: que représentent les nombres, quelles sont les unités de mesure, etc. ?
+  \item Rédiger un texte mobilisant les mesures pertinentes contenues dans les tableaux et calculées à partir des tableaux.
+\end{itemize}
+
+~
+
+<<anova2, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
+Boxplot2(df = readData(), varx = input$varanova2[2], vary = input$varanova2[1], groupx = input$varanova2[3])
+@
+
+~
+
+<<qualiquali1, echo=FALSE, results='markup', warning=FALSE, message=FALSE, cache=FALSE>>=
+anova2Results <- ComputeRegression(df = readData(), vardep = input$varanova2[1], varindep = input$varanova2[2:3], interact = input$interactanova2, decompvar = FALSE)
+kable(anova2Results$TABCOEF)
+@
+
+~

@@ -1,0 +1,52 @@
+
+% !Rnw root = exam.Rnw
+
+\textbf{Analyse quali-quali}
+
+\begin{itemize}
+  \item Quel est le type des variables; quel est le type d'analyse?
+  \item Comment doit-on lire les tableaux: que représentent les nombres, quelles sont les unités de mesure, etc. ?
+  \item Rédiger un texte mobilisant les mesures pertinentes contenues dans les tableaux et calculées à partir des tableaux.
+\end{itemize}
+
+~
+
+<<qualiquali0, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
+Mosaicplot(df = readData(), varx = input$varqualiquali[2], vary = input$varqualiquali[1])
+@
+
+~
+
+\emph{Effectifs observés}
+
+<<qualiquali1, echo=FALSE, results='markup', warning=FALSE, message=FALSE, cache=FALSE>>=
+chiResults <- ContTab(df = readData(), varx = input$varqualiquali[2], vary = input$varqualiquali[1])
+nbColumns <- ncol(chiResults$OBS)
+kable(chiResults$OBS, align = rep("r", times = nbColumns))
+@
+
+~
+
+\emph{Effectifs espérés}
+
+<<qualiquali2, echo=FALSE, results='markup', warning=FALSE, message=FALSE, cache=FALSE>>=
+kable(chiResults$EXP, align = rep("r", times = nbColumns))
+@
+
+~
+
+\emph{Résidus bruts}
+
+<<qualiquali3, echo=FALSE, results='markup', warning=FALSE, message=FALSE, cache=FALSE>>=
+kable(chiResults$RAWRESID, align = rep("r", times = nbColumns))
+@
+
+~
+
+\emph{Résidus standardisés au carré}
+
+<<qualiquali4, echo=FALSE, results='markup', warning=FALSE, message=FALSE, cache=FALSE>>=
+kable(chiResults$STSQRESID, align = rep("r", times = nbColumns))
+@
+
+~

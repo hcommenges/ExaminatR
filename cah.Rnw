@@ -1,0 +1,21 @@
+
+% !Rnw root = exam.Rnw
+
+\textbf{Classification ascendante hiérarchique}
+
+\begin{itemize}
+  \item Quels sont les objectifs recherchés avec la classification ascendante hiérarchique?
+  \item Comment doit-on lire les documents: que représentent les axes, quelles sont les unités de mesure, etc. ?
+  \item Interpréter les résultats dans un texte rédigé.
+\end{itemize}
+
+<<cah1, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
+cahResults <- ComputeClassif(df = readData(), varquanti = input$varcah)
+PlotDendro(cahResults)
+print(PlotHeight(cahResults))
+@
+
+<<cah2, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
+clusProfile <- PlotProfile(cahResults, nbclus = input$nbclus)
+print(clusProfile$PROFILE)
+@

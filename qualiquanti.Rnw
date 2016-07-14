@@ -1,0 +1,40 @@
+
+% !Rnw root = exam.Rnw
+
+\textbf{Analyse quali-quanti}
+
+\begin{itemize}
+  \item Nommer les variables C1, C2, C3 et C4 et dire à quoi elles correspondent.
+  \item Expliquer la décomposition de la variance.
+  \item Calculer le R2.
+  \item Analyser la relation entre les deux variables.
+\end{itemize}
+
+~
+
+\emph{Extrait du tableau de données}
+
+
+<<qualiquanti1, echo=FALSE, results='markup', warning=FALSE, message=FALSE, cache=FALSE>>=
+outAnova <- AnovaTab(df = readData(), varx = input$varqualiquanti[2], vary = input$varqualiquanti[1])
+nbColumns1 <- ncol(outAnova$EXTRACT)
+kable(outAnova$EXTRACT, row.names = FALSE, align = rep("r", times = nbColumns1))
+@
+
+
+\emph{Moyenne et variance par modalité}
+
+<<qualiquanti2, echo=FALSE, results='markup', warning=FALSE, message=FALSE, cache=FALSE>>=
+nbColumns2 <- ncol(outAnova$SUMTAB)
+kable(outAnova$SUMTAB, row.names = FALSE, align = rep("r", times = nbColumns2))
+@
+
+~
+
+\emph{Graphique}
+
+<<qualiquanti3, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
+Boxplot(df = readData(), varx = input$varqualiquanti[2], vary = input$varqualiquanti[1])
+@
+
+~

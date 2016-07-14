@@ -1,0 +1,18 @@
+
+% !Rnw root = exam.Rnw
+
+\textbf{Description des variables}
+
+~
+
+<<description, echo=FALSE, results='markup', cache=FALSE>>=
+if (length(input$vartot) == length(ParseDescription(input$descrdonnees))){
+  descrTab <- data.frame(VARIABLE = input$vartot, 
+                       DESCRIPTION = ParseDescription(input$descrdonnees))
+  kable(descrTab)
+} else {
+  print("Le nombre de variables choisies ne correspond pas au nombre de variables décrites")
+}
+@
+
+~

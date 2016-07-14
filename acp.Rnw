@@ -1,0 +1,64 @@
+
+% !Rnw root = exam.Rnw
+
+\textbf{Analyse en composantes principales}
+
+\begin{itemize}
+  \item Quels sont les objectifs recherchés avec l'analyse en composantes principales?
+  \item Comment doit-on lire les documents: que représentent les axes, quelles sont les unités de mesure, etc. ?
+  \item Interpréter les résultats dans un texte rédigé.
+\end{itemize}
+
+
+
+<<acp1, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
+pcaResults <- ComputePrincipalComp(df = readData(), varquanti = input$varacp, ident = input$idtab)
+DecompInertia(pcaResults)
+@
+
+~
+
+<<acp2, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
+kable(CorCompMat(pcaResults, naxis = input$axisacp))
+@
+
+~
+
+<<acp3, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
+if(input$axisacp == 2){
+  CorCircle(pcaResults, xaxis = 1, yaxis = 2)
+} else if(input$axisacp == 3){
+  CorCircle(pcaResults, xaxis = 1, yaxis = 2)
+  CorCircle(pcaResults, xaxis = 1, yaxis = 3)
+  CorCircle(pcaResults, xaxis = 2, yaxis = 3)
+} else if(input$axisacp == 4){
+  CorCircle(pcaResults, xaxis = 1, yaxis = 2)
+  CorCircle(pcaResults, xaxis = 1, yaxis = 3)
+  CorCircle(pcaResults, xaxis = 1, yaxis = 4)
+  CorCircle(pcaResults, xaxis = 2, yaxis = 3)
+  CorCircle(pcaResults, xaxis = 2, yaxis = 4)
+  CorCircle(pcaResults, xaxis = 3, yaxis = 4)
+  }
+@
+
+~
+
+<<acp4, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
+if(input$axisacp == 2){
+  print(PlotIndiv(pcaResults, xaxis = 1, yaxis = 2))
+} else if(input$axisacp == 3){
+  print(PlotIndiv(pcaResults, xaxis = 1, yaxis = 2))
+  print(PlotIndiv(pcaResults, xaxis = 1, yaxis = 3))
+  print(PlotIndiv(pcaResults, xaxis = 2, yaxis = 3))
+} else if(input$axisacp == 4){
+  print(PlotIndiv(pcaResults, xaxis = 1, yaxis = 2))
+  print(PlotIndiv(pcaResults, xaxis = 1, yaxis = 3))
+  print(PlotIndiv(pcaResults, xaxis = 1, yaxis = 4))
+  print(PlotIndiv(pcaResults, xaxis = 2, yaxis = 3))
+  print(PlotIndiv(pcaResults, xaxis = 2, yaxis = 4))
+  print(PlotIndiv(pcaResults, xaxis = 3, yaxis = 4))
+  }
+@
+
+
+~

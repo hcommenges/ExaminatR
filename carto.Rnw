@@ -1,0 +1,118 @@
+
+% !Rnw root = exam.Rnw
+
+\textbf{Cartographie}
+
+\begin{itemize}
+  \item Quels sont les objectifs recherchés avec la classification ascendante hiérarchique?
+  \item Comment doit-on lire les documents: que représentent les axes, quelles sont les unités de mesure, etc. ?
+  \item Interpréter les résultats dans un texte rédigé.
+\end{itemize}
+
+<<carto1, eval= input$checkcartovar, echo=FALSE, results='markup', dev="png", fig.width=8, dpi=240, fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
+if(input$varcarto1 != "ø") {
+  CartoVar(spdf = readSpatialData(), df = readData(), idtab = input$idtab, idshape = input$idshape, varquanti = input$varcarto1, discret = input$discret1, nbcl = input$nbcl1)
+}
+@
+
+<<carto2, eval= input$checkcartovar, echo=FALSE, results='markup', dev="png", fig.width=8, dpi=240, fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
+if(input$varcarto2 != "ø") {
+  CartoVar(spdf = readSpatialData(), df = readData(), idtab = input$idtab, idshape = input$idshape, varquanti = input$varcarto2, discret = input$discret2, nbcl = input$nbcl2)
+}
+@
+
+<<carto3, eval= input$checkcartoana, echo=FALSE, results='markup', dev="png", fig.width=8, dpi=240, fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
+if(input$varcarto3 == "reg1") {
+  if(is.null(input$varquantiquanti)){
+    print("Il n'y a pas d'analyse à cartographier")
+  } else {
+    CartoRegression(spdf = readSpatialData(), 
+                    df = readData(), 
+                    idtab = input$idtab, 
+                    idshape = input$idshape, 
+                    model = regResults1, 
+                    nbcl = input$nbcl3)
+  }
+} else if(input$varcarto3 == "reg2"){
+  if(is.null(input$varregress2)){
+    print("Il n'y a pas d'analyse à cartographier")
+  } else {
+    CartoRegression(spdf = readSpatialData(), 
+                    df = readData(), 
+                    idtab = input$idtab, 
+                    idshape = input$idshape, 
+                    model = regResults2, 
+                    nbcl = input$nbcl3)
+  }
+} else if(input$varcarto3 == "acp"){
+  if(is.null(input$varacp)){
+    print("Il n'y a pas d'analyse à cartographier")
+  } else {
+    CartoFacto(spdf = readSpatialData(), 
+                    df = readData(), 
+                    idtab = input$idtab, 
+                    idshape = input$idshape, 
+                    model = pcaResults, 
+                    nbcl = input$nbcl3)
+  }
+} else if(input$varcarto3 == "cah"){
+  if(is.null(input$varcah)){
+    print("Il n'y a pas d'analyse à cartographier")
+  } else {
+    CartoClass(spdf = readSpatialData(), 
+                    df = readData(), 
+                    idtab = input$idtab, 
+                    idshape = input$idshape, 
+                    model = clusProfile)
+  }
+}
+
+@
+
+<<carto4, eval= input$checkcartoana, echo=FALSE, results='markup', dev="png", fig.width=8, dpi=240, fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
+if(input$varcarto4 == "reg1") {
+  if(is.null(input$varquantiquanti)){
+    print("Il n'y a pas d'analyse à cartographier")
+  } else {
+    CartoRegression(spdf = readSpatialData(), 
+                    df = readData(), 
+                    idtab = input$idtab, 
+                    idshape = input$idshape, 
+                    model = regResults1, 
+                    nbcl = input$nbcl4)
+  }
+} else if(input$varcarto4 == "reg2"){
+  if(is.null(input$varregress2)){
+    print("Il n'y a pas d'analyse à cartographier")
+  } else {
+    CartoRegression(spdf = readSpatialData(), 
+                    df = readData(), 
+                    idtab = input$idtab, 
+                    idshape = input$idshape, 
+                    model = regResults2, 
+                    nbcl = input$nbcl4)
+  }
+} else if(input$varcarto4 == "acp"){
+  if(is.null(input$varacp)){
+    print("Il n'y a pas d'analyse à cartographier")
+  } else {
+    CartoFacto(spdf = readSpatialData(), 
+                    df = readData(), 
+                    idtab = input$idtab, 
+                    idshape = input$idshape, 
+                    model = pcaResults, 
+                    nbcl = input$nbcl4)
+  }
+} else if(input$varcarto4 == "cah"){
+  if(is.null(input$varcah)){
+    print("Il n'y a pas d'analyse à cartographier")
+  } else {
+    CartoClass(spdf = readSpatialData(), 
+                    df = readData(), 
+                    idtab = input$idtab, 
+                    idshape = input$idshape, 
+                    model = clusProfile)
+  }
+}
+
+@

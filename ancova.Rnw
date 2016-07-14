@@ -1,0 +1,25 @@
+
+% !Rnw root = exam.Rnw
+
+\textbf{Analyse de la covariance}
+
+\begin{itemize}
+  \item Quel est le type des variables; quel est le type d'analyse?
+  \item Comment doit-on lire les tableaux: que représentent les nombres, quelles sont les unités de mesure, etc. ?
+  \item Rédiger un texte mobilisant les mesures pertinentes contenues dans les tableaux et calculées à partir des tableaux.
+\end{itemize}
+
+~
+
+<<ancov1, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
+ScatterPlotAncov(df = readData(), varx = input$varancova[2], vary = input$varancova[1], groupx = input$varancova[3])
+@
+
+~
+
+<<ancov2, echo=FALSE, results='markup', warning=FALSE, message=FALSE, cache=FALSE>>=
+ancovResults <- ComputeRegression(df = readData(), vardep = input$varancova[1], varindep = input$varancova[2:3], interact = input$interactancova, decompvar = FALSE)
+kable(ancovResults$TABCOEF)
+@
+
+~

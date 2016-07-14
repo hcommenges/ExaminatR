@@ -1,0 +1,21 @@
+
+% !Rnw root = exam.Rnw
+
+\textbf{Analyse quanti-quanti}
+
+\begin{itemize}
+  \item À quel type d’analyse correspond ce graphique? 
+  \item Quelle est l'hypothèse explicative sous-jacente dans cette relation?
+  \item Comment exprimeriez-vous l'hypothèse inverse?
+  \item Comment interpréter l'équation de la droite et le R2?
+\end{itemize}
+
+<<quantiquanti, echo=FALSE, results='markup', dev="my_png", fig.ext="png", warning=FALSE, message=FALSE, cache=FALSE>>=
+regResults1 <- ComputeRegression(df = readData(), 
+                               vardep = input$varquantiquanti[2], 
+                               varindep = input$varquantiquanti[1],
+                               ident = input$idtab)
+ScatterPlot(df = readData(), varx = input$varquantiquanti[2], vary = input$varquantiquanti[1])
+@
+
+~
