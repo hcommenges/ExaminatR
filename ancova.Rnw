@@ -18,7 +18,7 @@ ScatterPlotAncov(df = readData(), varx = input$varancova[2], vary = input$varanc
 ~
 
 <<ancov2, echo=FALSE, results='markup', warning=FALSE, message=FALSE, cache=FALSE>>=
-ancovResults <- ComputeRegression(df = readData(), vardep = input$varancova[1], varindep = input$varancova[2:3], interact = input$interactancova, decompvar = FALSE)
+ancovResults <- ComputeRegression(df = readData(), vardep = input$varancova[1], varindep = input$varancova[2:3], ident = input$idtab, interact = input$interactancova, decompvar = FALSE)
 kable(ancovResults$TABCOEF)
 @
 

@@ -11,7 +11,7 @@
 
 <<cah1, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
 cahResults <- ComputeClassif(df = readData(), varquanti = input$varcah)
-PlotDendro(cahResults)
+print(PlotDendro(cahResults))
 print(PlotHeight(cahResults))
 @
 

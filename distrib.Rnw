@@ -1,0 +1,22 @@
+
+% !Rnw root = exam.Rnw
+
+\textbf{Distribution des statistiques de test}
+
+\begin{itemize}
+  \item Que représente les aires sous les courbes?
+  \item Comment lire la valeur seuil en rapport avec l'analyse XXX?
+\end{itemize}
+
+<<distrib1, eval= input$checkdistribchi, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
+print(ChiDistribution(df = input$chidf, alpha = input$chialpha))
+@
+
+<<distrib2, eval= input$checkdistribt, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
+print(TDistribution(df = input$tdf, alpha = input$talpha))
+@
+
+<<distrib3, eval= input$checkdistribf, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
+print(FDistribution(df1 = input$fdf1, df2 = input$fdf2, alpha = input$falpha))
+@
+

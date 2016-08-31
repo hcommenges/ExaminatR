@@ -9,7 +9,7 @@
   \item Interpréter les résultats dans un texte rédigé.
 \end{itemize}
 
-
+~
 
 <<acp1, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
 pcaResults <- ComputePrincipalComp(df = readData(), varquanti = input$varacp, ident = input$idtab)
@@ -24,20 +24,20 @@ kable(CorCompMat(pcaResults, naxis = input$axisacp))
 
 ~
 
-<<acp3, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
+<<acp3, echo=FALSE, results='markup', dev="png", fig.width=9, dpi=240, fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
 if(input$axisacp == 2){
-  CorCircle(pcaResults, xaxis = 1, yaxis = 2)
+  print(CorCircle(pcaResults, xaxis = 1, yaxis = 2))
 } else if(input$axisacp == 3){
-  CorCircle(pcaResults, xaxis = 1, yaxis = 2)
-  CorCircle(pcaResults, xaxis = 1, yaxis = 3)
-  CorCircle(pcaResults, xaxis = 2, yaxis = 3)
+  print(CorCircle(pcaResults, xaxis = 1, yaxis = 2))
+  print(CorCircle(pcaResults, xaxis = 1, yaxis = 3))
+  print(CorCircle(pcaResults, xaxis = 2, yaxis = 3))
 } else if(input$axisacp == 4){
-  CorCircle(pcaResults, xaxis = 1, yaxis = 2)
-  CorCircle(pcaResults, xaxis = 1, yaxis = 3)
-  CorCircle(pcaResults, xaxis = 1, yaxis = 4)
-  CorCircle(pcaResults, xaxis = 2, yaxis = 3)
-  CorCircle(pcaResults, xaxis = 2, yaxis = 4)
-  CorCircle(pcaResults, xaxis = 3, yaxis = 4)
+  print(CorCircle(pcaResults, xaxis = 1, yaxis = 2))
+  print(CorCircle(pcaResults, xaxis = 1, yaxis = 3))
+  print(CorCircle(pcaResults, xaxis = 1, yaxis = 4))
+  print(CorCircle(pcaResults, xaxis = 2, yaxis = 3))
+  print(CorCircle(pcaResults, xaxis = 2, yaxis = 4))
+  print(CorCircle(pcaResults, xaxis = 3, yaxis = 4))
   }
 @
 
@@ -45,18 +45,18 @@ if(input$axisacp == 2){
 
 <<acp4, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
 if(input$axisacp == 2){
-  print(PlotIndiv(pcaResults, xaxis = 1, yaxis = 2))
+  print(PlotIndiv(pcaResults, xaxis = 1, yaxis = 2, printlabel = input$printlabel))
 } else if(input$axisacp == 3){
-  print(PlotIndiv(pcaResults, xaxis = 1, yaxis = 2))
-  print(PlotIndiv(pcaResults, xaxis = 1, yaxis = 3))
-  print(PlotIndiv(pcaResults, xaxis = 2, yaxis = 3))
+  print(PlotIndiv(pcaResults, xaxis = 1, yaxis = 2, printlabel = input$printlabel))
+  print(PlotIndiv(pcaResults, xaxis = 1, yaxis = 3, printlabel = input$printlabel))
+  print(PlotIndiv(pcaResults, xaxis = 2, yaxis = 3, printlabel = input$printlabel))
 } else if(input$axisacp == 4){
-  print(PlotIndiv(pcaResults, xaxis = 1, yaxis = 2))
-  print(PlotIndiv(pcaResults, xaxis = 1, yaxis = 3))
-  print(PlotIndiv(pcaResults, xaxis = 1, yaxis = 4))
-  print(PlotIndiv(pcaResults, xaxis = 2, yaxis = 3))
-  print(PlotIndiv(pcaResults, xaxis = 2, yaxis = 4))
-  print(PlotIndiv(pcaResults, xaxis = 3, yaxis = 4))
+  print(PlotIndiv(pcaResults, xaxis = 1, yaxis = 2, printlabel = input$printlabel))
+  print(PlotIndiv(pcaResults, xaxis = 1, yaxis = 3, printlabel = input$printlabel))
+  print(PlotIndiv(pcaResults, xaxis = 1, yaxis = 4, printlabel = input$printlabel))
+  print(PlotIndiv(pcaResults, xaxis = 2, yaxis = 3, printlabel = input$printlabel))
+  print(PlotIndiv(pcaResults, xaxis = 2, yaxis = 4, printlabel = input$printlabel))
+  print(PlotIndiv(pcaResults, xaxis = 3, yaxis = 4, printlabel = input$printlabel))
   }
 @
 

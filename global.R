@@ -4,11 +4,13 @@
 
 # load packages ----
 
-library(scatterplot3d)
-library(knitr)
 library(shiny)
+library(knitr)
+library(scatterplot3d)
+library(showtext)
 library(ade4)
 library(cluster)
+library(ggdendro)
 library(ggplot2)
 library(RColorBrewer)
 library(reshape2)
@@ -21,34 +23,6 @@ library(dplyr)
 
 options(scipen = 10000)
 
-# translate to french ----
-
-French <- function(vec){
-  outWords <- c("min", "max", "median", "mean", "var")
-  frenchWords <- c("Minimum", "Maximum", "Médiane", "Moyenne", "Variance")
-  idMatchOutRaw <- match(x = vec, table = outWords)
-  idMatchIn <- which(!is.na(idMatchOutRaw))
-  idMatchOut <- as.vector(na.omit(idMatchOutRaw))
-  vec[idMatchIn] <- frenchWords[idMatchOut]
-  vecFactor <- factor(vec, levels = frenchWords, labels = frenchWords)
-  return(vecFactor)
-}
-
-# variance for population ----
-
-Varp <- function(vec){
-  varPop <- sum((vec - mean(vec)) ^ 2) / length(vec) 
-  return(varPop)
-}
-
-
-# parse data description ----
-
-ParseDescription <- function(vec){
-  varList <- str_split(vec, pattern = ",")
-  varListTrimmed <- str_trim(varList[[1]])
-  return(varListTrimmed)
-}
 
 # UNIVARIATE ----
 
@@ -74,7 +48,7 @@ Histogram <- function(df, varquanti, nbins = 15){
   caseNumber <- nrow(df)
   myPlot <- ggplot(df) + 
     geom_histogram(aes_string(x = varquanti), color = "white", fill = "grey30", bins = nbins) +
-    scale_y_continuous(paste("Fréquence (n = ", caseNumber, ")", sep = "")) + theme_bw()
+    scale_y_continuous(paste("Fréquence (n = ", caseNumber, ")", sep = ""))
   return(myPlot)
 }
 
@@ -142,8 +116,7 @@ ScatterPlot <- function(df, varx, vary){
   scatPlot <- ggplot(df) + 
     geom_point(aes_string(x = varx, y = vary), color = "grey60") + 
     geom_smooth(aes_string(x = varx, y = vary), method = "lm", se = FALSE, color = "chocolate") +
-    annotate("text", x = posCoords[1:2], y = posCoords[3:4], label = c(textEq, textR2), hjust = sidejust, family = "serif", fontface = "bold") +
-    theme_bw()
+    annotate("text", x = posCoords[1:2], y = posCoords[3:4], label = c(textEq, textR2), family = "Ubu", hjust = sidejust, fontface = "bold")
   
   return(scatPlot)
 }
@@ -240,8 +213,7 @@ ComputeRegression <- function(df, vardep, varindep, ident, interact = FALSE, dec
 
 Boxplot <- function(df, varx, vary){
   boxPlot <- ggplot(df) + 
-    geom_boxplot(aes_string(x = varx, y = vary), color = "grey20", fill = "grey70") +
-    theme_bw()
+    geom_boxplot(aes_string(x = varx, y = vary), color = "grey20", fill = "grey70")
   
   return(boxPlot)
 }
@@ -250,8 +222,7 @@ Boxplot <- function(df, varx, vary){
 
 Boxplot2 <- function(df, varx, vary, groupx){
   boxPlot <- ggplot(df) + 
-    geom_boxplot(aes_string(x = varx, y = vary, fill = groupx), color = "grey20") +
-    theme_bw()
+    geom_boxplot(aes_string(x = varx, y = vary, fill = groupx), color = "grey20")
   
   return(boxPlot)
 }
@@ -263,7 +234,7 @@ ScatterPlotAncov <- function(df, varx, vary, groupx){
   scatPlot <- ggplot(df) + 
     geom_point(aes_string(x = varx, y = vary, group = groupx, color = groupx)) + 
     geom_smooth(aes_string(x = varx, y = vary, group = groupx, color = groupx), method = "lm", se = FALSE) +
-    theme_bw()
+    scale_color_discrete()
   
   return(scatPlot)
 }
@@ -307,8 +278,7 @@ DecompInertia <- function(dudiobj){
   
   decomPlot <- ggplot(summaryPca) + geom_bar(aes(x = COMP, y = PCTVAR), stat = "identity") + 
     scale_x_discrete("Composantes") +
-    scale_y_continuous("Pourcentage de l'inertie totale (%)") +
-    theme_bw()  
+    scale_y_continuous("Pourcentage de l'inertie totale (%)")
   
   return(decomPlot)
 }
@@ -316,7 +286,22 @@ DecompInertia <- function(dudiobj){
 # correlation plot ----
 
 CorCircle <- function(dudiobj, xaxis, yaxis){
-  s.corcircle(dudiobj$co, xax = xaxis, yax = yaxis, sub = paste("Plan factoriel : ", "Comp ", xaxis, " (x) - Comp ", yaxis, " (y)", sep = ""))
+  dfCor <- data.frame(dudiobj$co, XORI = 0, YORI = 0, VARIABLE = row.names(dudiobj$co), stringsAsFactors = FALSE)
+  oneCircle <- MakeCircle(coordx = 0, coordy = 0, rad = 1)
+  corPlot <- ggplot() + 
+    geom_vline(xintercept = 0, color = "grey50") + 
+    geom_hline(yintercept = 0, color = "grey50") +
+    geom_path(data = oneCircle, aes(x = XC, y = YC), color = "grey50") +
+    geom_segment(data = dfCor, 
+                 aes_string(x = "XORI", xend = colnames(dfCor)[xaxis], y = "YORI", yend = colnames(dfCor)[yaxis]), 
+                 lineend = "round",
+                 arrow = arrow(length = unit(0.01, "npc"))) +
+    geom_label(data = dfCor, aes_string(x = colnames(dfCor)[xaxis], y = colnames(dfCor)[yaxis], label = "VARIABLE"), size = 3, hjust = "outward", vjust = "outward", family = "Ubu") +
+    scale_x_continuous(name = paste("Composante", xaxis, sep = " "), limits = c(-1.2, 1.2)) +
+    scale_y_continuous(name = paste("Composante", yaxis, sep = " "), limits = c(-1.2, 1.2)) +
+    coord_equal()
+  
+  return(corPlot)
 }
 
 
@@ -332,17 +317,26 @@ CorCompMat <- function(dudiobj, naxis){
 
 # individuals plot ----
 
-PlotIndiv <- function(dudiobj, xaxis, yaxis){
+PlotIndiv <- function(dudiobj, xaxis, yaxis, printlabel = FALSE){
   xString <- paste("Axis", xaxis, sep = "")
   yString <- paste("Axis", yaxis, sep = "")
   coordIndiv <- data.frame(ID = row.names(dudiobj$li),
                            dudiobj$li,
                            stringsAsFactors = FALSE)
-  
-  pcaIndivPlot <- ggplot(coordIndiv) +
-    geom_hline(yintercept = 0, color = "grey50") + geom_vline(xintercept = 0, color = "grey") +
-    geom_text(aes_string(x = xString, y = yString, label = "ID")) +
-    theme_bw()
+  if(printlabel == FALSE){
+    pcaIndivPlot <- ggplot(coordIndiv) +
+      geom_hline(yintercept = 0, color = "grey50") + geom_vline(xintercept = 0, color = "grey50") +
+      geom_point(aes_string(x = xString, y = yString), size = 0.6) +
+      scale_x_continuous(name = paste("Composante", xaxis, sep = " ")) +
+      scale_y_continuous(name = paste("Composante", yaxis, sep = " "))
+  } else {
+    pcaIndivPlot <- ggplot(coordIndiv) +
+      geom_hline(yintercept = 0, color = "grey50") + geom_vline(xintercept = 0, color = "grey50") +
+      geom_text(aes_string(x = xString, y = yString, label = "ID"), size = 3, family = "Ubu") +
+      scale_x_continuous(name = paste("Composante", xaxis, sep = " ")) +
+      scale_y_continuous(name = paste("Composante", yaxis, sep = " "))
+  }
+
   
   return(pcaIndivPlot)
 }
@@ -373,7 +367,12 @@ ComputeClassif <- function(df, varquanti){
 
 PlotDendro <- function(classifobj){
   dendroPlot <- as.dendrogram(classifobj)
-  plot(dendroPlot, leaflab = "none")
+  dendroData <- dendro_data(dendroPlot, type = "rectangle")
+  dendroGgplot <- ggplot(segment(dendroData)) +
+    geom_segment(aes(x = x, y = y, xend = xend, yend = yend)) +
+    scale_x_continuous("") + scale_y_continuous("")
+
+  return(dendroGgplot)
 }
 
 # plot inertia ----
@@ -386,8 +385,7 @@ PlotHeight <- function(classifobj){
   
   heightPlot <- ggplot(tabHeight) +
     geom_bar(aes(x = NODES, y = INERTIE), fill = "grey30", stat = "identity") +
-    scale_x_discrete("Nombre de classes") + scale_y_continuous("Pourcentage de l'inertie totale (%)") +
-    theme_bw()
+    scale_x_discrete("Nombre de classes") + scale_y_continuous("Pourcentage de l'inertie totale (%)")
   
   return(heightPlot)
 }
@@ -409,7 +407,7 @@ PlotProfile <- function(classifobj, nbclus){
   profilePlot <- ggplot(clusLong) +
     geom_bar(aes(x = variable, y = value), fill = "grey30", position = "identity", stat = "identity") +
     scale_x_discrete("Variable") + scale_y_continuous("Valeur moyenne par classe") +
-    facet_wrap(~ CLASSE) + coord_flip() + theme_bw()
+    facet_wrap(~ CLASSE) + coord_flip()
   
   return(list(PROFILE = profilePlot, CLUSID = dfOri$CLUS))
 }
@@ -421,7 +419,7 @@ PlotProfile <- function(classifobj, nbclus){
 
 avgsd <- function(vec, nbcl){
   if(length(vec) < nbcl) {
-    stop("Arrête tout")
+    stop("Nombre de classes trop important")
   } else{
     minVec <- min(vec, na.rm = TRUE)
     maxVec <- max(vec, na.rm = TRUE)
@@ -433,7 +431,7 @@ avgsd <- function(vec, nbcl){
     seqSd <- seqNbSd[seqNbSd != 0] * sdVec
     
     if(avgVec + min(seqSd) < minVec | avgVec + max(seqSd) > maxVec){
-      stop("Attention tu vas m'énerver")
+      stop("Nombre de classes trop important")
     } else {
       if(evenClass){
         brks <- c(minVec, avgVec + seqSd[1:nbSd], avgVec, avgVec + seqSd[(nbSd+1):length(seqSd)], maxVec)
@@ -604,4 +602,164 @@ CartoClass <- function(spdf, df, idtab, idshape, model){
               frame = TRUE,
               south = TRUE)
 }
+
+
+# DISTRIBUTION F, T, CHI2 ----
+
+# Chi2 distribution ---- 
+
+ChiDistribution <- function(df, alpha){
+  # compute probabilities
+  lowerBound <- 0
+  upperBound <- round(qchisq(p = 1 - alpha, df = df), digits = 2)
+  maxX <- round(qchisq(p = 0.999, df = df), digits = 2)
+  seqValues <- seq(0, maxX, .01)
+  seqProba <- dchisq(x = seqValues, df = df)
+  
+  # create tables
+  tabChi <- data.frame(SEQ = seqValues, PROBA = seqProba)
+  valBreak <- which(as.character(tabChi$SEQ) == as.character(upperBound))
+  tabZeroZero <- data.frame(SEQ = 0, PROBA = 0)
+  tabZeroBound <- data.frame(SEQ = upperBound, PROBA = 0)
+  tabZeroMax <- data.frame(SEQ = max(tabChi$SEQ), PROBA = 0)
+  tabChiNo <- rbind(tabZeroZero, tabChi[1:valBreak, ], tabZeroBound)
+  tabChiYes <- rbind(tabZeroBound, tabChi[valBreak:nrow(tabChi), ], tabZeroMax)
+  
+  # plot distribution
+  chiPlot <- ggplot() + 
+    geom_polygon(data = tabChiNo, aes(x = SEQ, y = PROBA), fill = "grey50") +
+    geom_polygon(data = tabChiYes, aes(x = SEQ, y = PROBA), fill = "firebrick") +
+    geom_line(data = tabChi, aes(x = SEQ, y = PROBA)) +
+    annotate(geom = "text", x = upperBound, y = -max(tabChi$PROBA) / 40, label = formatC(upperBound, digits = 1, format = "f"), fontface = 2) +
+    scale_x_continuous("Valeur de la statistique Chi2") +
+    scale_y_continuous("Densité de probabilité") +
+    ggtitle(paste("Valeurs seuil de la statistique Chi2 : degrés de liberté = ", df, " ; alpha = ", alpha, sep = ""))
+  
+  return(chiPlot)
+}
+
+
+# T distribution ---- 
+
+TDistribution <- function(df, alpha){
+  # compute probabilities
+  lowerBound <- 0
+  upperBound <- round(qt(p = 1 - (alpha/2), df = df), digits = 2)
+  maxX <- round(qt(p = 0.999, df = df), digits = 2)
+  seqValues <- sort(c(-seq(0, maxX, .01), seq(0, maxX, .01)))
+  seqValuesAbs <- seq(0, maxX, .01)
+  seqProba <- c(rev(dt(x = seqValuesAbs, df = df)), dt(x = seqValuesAbs, df = df))
+  
+  # create tables
+  tabT <- data.frame(SEQ = seqValues, PROBA = seqProba)
+  valBreak <- which(as.character(abs(tabT$SEQ)) == as.character(upperBound))
+  tabZeroMin <- data.frame(SEQ = -maxX, PROBA = 0)
+  tabZeroMax <-  data.frame(SEQ = maxX, PROBA = 0)
+  tabZeroBound1 <- data.frame(SEQ = -upperBound, PROBA = 0)
+  tabZeroBound2 <- data.frame(SEQ = upperBound, PROBA = 0)
+  tabTNo <- rbind(tabZeroBound1, tabT[valBreak[1]:valBreak[2], ], tabZeroBound2)
+  tabTYes1 <- rbind(tabZeroMin, tabT[1:valBreak[1], ], tabZeroBound1)
+  tabTYes2 <- rbind(tabZeroBound2, tabT[valBreak[2]:nrow(tabT), ], tabZeroMax)
+  
+  # plot distribution
+  tPlot <- ggplot() + 
+    geom_polygon(data = tabTNo, aes(x = SEQ, y = PROBA), fill = "grey50") +
+    geom_polygon(data = tabTYes1, aes(x = SEQ, y = PROBA), fill = "firebrick") +
+    geom_polygon(data = tabTYes2, aes(x = SEQ, y = PROBA), fill = "firebrick") +
+    geom_line(data = tabT, aes(x = SEQ, y = PROBA)) +
+    annotate(geom = "text", 
+             x = c(-upperBound, upperBound), 
+             y = -max(tabT$PROBA) / 40, 
+             label = c(formatC(-upperBound, digits = 1, format = "f"), formatC(upperBound, digits = 1, format = "f")), 
+             fontface = 2) +
+    scale_x_continuous("Valeur du T de Student") +
+    scale_y_continuous("Densité de probabilité") +
+    ggtitle(paste("Valeurs seuil de la statistique T : degrés de liberté = ", df, " ; alpha = ", alpha, sep = ""))
+  
+  return(tPlot)
+}
+
+
+
+# F distribution ---- 
+
+FDistribution <- function(df1, df2, alpha){
+  # compute probabilities
+  lowerBound <- 0
+  upperBound <- round(qf(p = 1 - alpha, df1 = df1, df2 = df2), digits = 2)
+  maxX <- round(qf(p = 0.999, df1 = df1, df2 = df2), digits = 2)
+  seqValues <- seq(0, maxX, .01)
+  seqProba <- df(x = seqValues, df1 = df1, df2 = df2)
+  
+  # create tables
+  tabF <- data.frame(SEQ = seqValues, PROBA = seqProba)
+  valBreak <- which(as.character(abs(tabF$SEQ)) == as.character(upperBound))
+  tabZeroZero <- data.frame(SEQ = 0, PROBA = 0)
+  tabZeroBound <- data.frame(SEQ = upperBound, PROBA = 0)
+  tabZeroMax <- data.frame(SEQ = max(tabF$SEQ), PROBA = 0)
+  tabFNo <- rbind(tabZeroZero, tabF[1:valBreak, ], tabZeroBound)
+  tabFYes <- rbind(tabZeroBound, tabF[valBreak:nrow(tabF), ], tabZeroMax)
+  
+  # plot distribution
+  fPlot <- ggplot() + 
+    geom_polygon(data = tabFNo, aes(x = SEQ, y = PROBA), fill = "grey50") +
+    geom_polygon(data = tabFYes, aes(x = SEQ, y = PROBA), fill = "firebrick") +
+    geom_line(data = tabF, aes(x = SEQ, y = PROBA)) +
+    annotate(geom = "text", x = upperBound, y = -max(tabF$PROBA) / 40, label = formatC(upperBound, digits = 1, format = "f"), fontface = 2) +
+    scale_x_continuous("Valeur de la statistique F") +
+    scale_y_continuous("Densité de probabilité") +
+    ggtitle(paste("Valeurs seuil de la statistique F : degrés de liberté = ", df1, " & ", df2, " ; alpha = ", alpha, sep = ""))
+  
+  return(fPlot)
+}
+
+
+
+# POT-POURRI ----
+
+# load fonts ----
+
+LoadFonts <- function(){
+  font.add(family = "Ubu", regular = "Ubuntu-L.ttf", bold = "Ubuntu-R.ttf")
+}
+
+
+# translate to french ----
+
+French <- function(vec){
+  outWords <- c("min", "max", "median", "mean", "var")
+  frenchWords <- c("Minimum", "Maximum", "Médiane", "Moyenne", "Variance")
+  idMatchOutRaw <- match(x = vec, table = outWords)
+  idMatchIn <- which(!is.na(idMatchOutRaw))
+  idMatchOut <- as.vector(na.omit(idMatchOutRaw))
+  vec[idMatchIn] <- frenchWords[idMatchOut]
+  vecFactor <- factor(vec, levels = frenchWords, labels = frenchWords)
+  return(vecFactor)
+}
+
+# variance for population ----
+
+Varp <- function(vec){
+  varPop <- sum((vec - mean(vec)) ^ 2) / length(vec) 
+  return(varPop)
+}
+
+# parse data description ----
+
+ParseDescription <- function(vec){
+  varList <- str_split(vec, pattern = ",")
+  varListTrimmed <- str_trim(varList[[1]])
+  return(varListTrimmed)
+}
+
+
+# circle coordinates ----
+
+MakeCircle <- function(coordx, coordy, rad = 1, npoints = 150){
+  tc <- seq(0, 2 * pi, length.out = npoints)
+  xc <- coordx + rad * cos(tc)
+  yc <- coordy + rad * sin(tc)
+  return(data.frame(XC = xc, YC = yc))
+}
+
 
