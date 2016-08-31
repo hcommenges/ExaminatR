@@ -11,7 +11,7 @@
 
 ~
 
-<<qualiquali0, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
+<<qualiquali0, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE>>=
 Mosaicplot(df = readData(), varx = input$varqualiquali[2], vary = input$varqualiquali[1])
 @
 
@@ -19,7 +19,7 @@ Mosaicplot(df = readData(), varx = input$varqualiquali[2], vary = input$varquali
 
 \emph{Effectifs observés}
 
-<<qualiquali1, echo=FALSE, results='markup', warning=FALSE, message=FALSE, cache=FALSE>>=
+<<qualiquali1, echo=FALSE, results='markup', warning=FALSE, message=FALSE>>=
 chiResults <- ContTab(df = readData(), varx = input$varqualiquali[2], vary = input$varqualiquali[1])
 nbColumns <- ncol(chiResults$OBS)
 kable(chiResults$OBS, align = rep("r", times = nbColumns))
@@ -29,7 +29,7 @@ kable(chiResults$OBS, align = rep("r", times = nbColumns))
 
 \emph{Effectifs espérés}
 
-<<qualiquali2, echo=FALSE, results='markup', warning=FALSE, message=FALSE, cache=FALSE>>=
+<<qualiquali2, echo=FALSE, results='markup', warning=FALSE, message=FALSE>>=
 kable(chiResults$EXP, align = rep("r", times = nbColumns))
 @
 
@@ -37,7 +37,7 @@ kable(chiResults$EXP, align = rep("r", times = nbColumns))
 
 \emph{Résidus bruts}
 
-<<qualiquali3, echo=FALSE, results='markup', warning=FALSE, message=FALSE, cache=FALSE>>=
+<<qualiquali3, echo=FALSE, results='markup', warning=FALSE, message=FALSE>>=
 kable(chiResults$RAWRESID, align = rep("r", times = nbColumns))
 @
 
@@ -45,7 +45,7 @@ kable(chiResults$RAWRESID, align = rep("r", times = nbColumns))
 
 \emph{Résidus standardisés au carré}
 
-<<qualiquali4, echo=FALSE, results='markup', warning=FALSE, message=FALSE, cache=FALSE>>=
+<<qualiquali4, echo=FALSE, results='markup', warning=FALSE, message=FALSE>>=
 kable(chiResults$STSQRESID, align = rep("r", times = nbColumns))
 @
 

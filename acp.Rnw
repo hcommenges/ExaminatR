@@ -11,20 +11,20 @@
 
 ~
 
-<<acp1, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
+<<acp1, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE>>=
 pcaResults <- ComputePrincipalComp(df = readData(), varquanti = input$varacp, ident = input$idtab)
 DecompInertia(pcaResults)
 @
 
 ~
 
-<<acp2, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
+<<acp2, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE>>=
 kable(CorCompMat(pcaResults, naxis = input$axisacp))
 @
 
 ~
 
-<<acp3, echo=FALSE, results='markup', dev="png", fig.width=9, dpi=240, fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
+<<acp3, echo=FALSE, results='markup', dev="png", fig.width=9, dpi=240, fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE>>=
 if(input$axisacp == 2){
   print(CorCircle(pcaResults, xaxis = 1, yaxis = 2))
 } else if(input$axisacp == 3){
@@ -43,7 +43,7 @@ if(input$axisacp == 2){
 
 ~
 
-<<acp4, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
+<<acp4, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE>>=
 if(input$axisacp == 2){
   print(PlotIndiv(pcaResults, xaxis = 1, yaxis = 2, printlabel = input$printlabel))
 } else if(input$axisacp == 3){

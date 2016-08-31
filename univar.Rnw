@@ -10,11 +10,11 @@
   \item Quels facteurs sociaux et spatiaux pourraient être proposés pour expliquer la variation (forme de distribution, centralité, dispersion) de ces variables?
 \end{itemize}
 
-<<univar1, echo=FALSE, results='markup', warning=FALSE, message=FALSE, cache=FALSE>>=
+<<univar1, echo=FALSE, results='markup', warning=FALSE, message=FALSE>>=
 kable(UnivarDescription(df = readData(), varquanti = input$varuni))
 @
 
-<<univar2, echo=FALSE, results='markup', dev="my_png", fig.ext="png", warning=FALSE, message=FALSE, cache=FALSE>>=
+<<univar2, echo=FALSE, results='markup', dev="my_png", fig.ext="png", warning=FALSE, message=FALSE>>=
 for(i in 1:length(input$varuni)){
   print(Histogram(df = readData(), varquanti = input$varuni[i]))
 }

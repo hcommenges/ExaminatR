@@ -117,13 +117,13 @@ Sur les résultats d'analyses la discrétisation se fait par défaut selon moyen
     filename = function() {paste("exam.", sep = "", switch(input$docformat, pdf = "pdf", odt = "odt", docx = "docx"))},
     content = function(file){
       if(input$docformat == "pdf"){
-        knit2pdf("exam.Rnw", compiler = "xelatex")
+        knit2pdf("exam.Rnw", compiler = "pdflatex")
         file.copy("exam.pdf", file)
         file.remove("exam.pdf", "exam.tex",
                     "exam.aux", "exam.log")
         unlink("figure", recursive = TRUE)
       } else if (input$docformat == "odt"){
-        knit2pdf("exam.Rnw", compiler = "xelatex")
+        knit2pdf("exam.Rnw", compiler = "pdflatex")
         setwd("figure/")
         file.rename(from = list.files(), to = sapply(list.files(), FUN = function(x) substr(x = x, start = 1, stop = nchar(x) - 4)))
         setwd("..")
@@ -134,7 +134,7 @@ Sur les résultats d'analyses la discrétisation se fait par défaut selon moyen
                     "exam.aux", "exam.log")
         unlink("figure", recursive = TRUE)
       } else if (input$docformat == "docx"){
-        knit2pdf("exam.Rnw", compiler = "xelatex")
+        knit2pdf("exam.Rnw", compiler = "pdflatex")
         setwd("figure/")
         file.rename(from = list.files(), to = sapply(list.files(), FUN = function(x) substr(x = x, start = 1, stop = nchar(x) - 4)))
         setwd("..")

@@ -10,7 +10,7 @@
   \item Comment interpréter l'équation de la droite et le R2?
 \end{itemize}
 
-<<quantiquanti, echo=FALSE, results='markup', dev="my_png", fig.ext="png", warning=FALSE, message=FALSE, cache=FALSE>>=
+<<quantiquanti, echo=FALSE, results='markup', dev="my_png", fig.ext="png", warning=FALSE, message=FALSE>>=
 regResults1 <- ComputeRegression(df = readData(), 
                                vardep = input$varquantiquanti[2], 
                                varindep = input$varquantiquanti[1],

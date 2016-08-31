@@ -5,7 +5,7 @@
 
 ~
 
-<<description, echo=FALSE, results='markup', cache=FALSE>>=
+<<description, echo=FALSE, results='markup'>>=
 if (length(input$vartot) == length(ParseDescription(input$descrdonnees))){
   descrTab <- data.frame(VARIABLE = input$vartot, 
                        DESCRIPTION = ParseDescription(input$descrdonnees))

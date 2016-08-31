@@ -11,13 +11,13 @@
 
 ~
 
-<<ancov1, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
+<<ancov1, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE>>=
 ScatterPlotAncov(df = readData(), varx = input$varancova[2], vary = input$varancova[1], groupx = input$varancova[3])
 @
 
 ~
 
-<<ancov2, echo=FALSE, results='markup', warning=FALSE, message=FALSE, cache=FALSE>>=
+<<ancov2, echo=FALSE, results='markup', warning=FALSE, message=FALSE>>=
 ancovResults <- ComputeRegression(df = readData(), vardep = input$varancova[1], varindep = input$varancova[2:3], ident = input$idtab, interact = input$interactancova, decompvar = FALSE)
 kable(ancovResults$TABCOEF)
 @

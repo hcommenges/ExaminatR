@@ -1,7 +1,11 @@
 \documentclass[a4paper, 11pt]{article}
-\usepackage{xunicode}
-\usepackage{fontspec}
-\setmainfont{Ubuntu}
+%\usepackage{xunicode} à utiliser avec Xelatex pour police Ubuntu
+%\usepackage{fontspec} à utiliser avec Xelatex pour police Ubuntu
+%\setmainfont{Ubuntu} à utiliser avec Xelatex pour police Ubuntu
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
 
 %%% Package pour franciser les paramètres (frenchbsetup pour éviter conflits avec enumitem)
 \usepackage[frenchb]{babel}
@@ -49,13 +53,13 @@
 \begin{document}
 
 <<custom-dev, echo=FALSE>>=
+opts_chunk$set(cache=FALSE)
 my_png <- function(file, width, height) {
   png(file, width = 18, height = 12, units = "cm", res = 240, pointsize = 8)
 }
-
-LoadFonts()
 theme_set(theme_bw())
-theme_update(text = element_text(family = "Ubu"), plot.title = element_text(size = 12))
+#LoadFonts()
+#theme_update(text = element_text(family = "Ubu"), plot.title = element_text(size = 12))
 @
 
 \begin{center}
@@ -78,52 +82,52 @@ theme_update(text = element_text(family = "Ubu"), plot.title = element_text(size
 
 % Description
 
-<<ch01, eval=input$checkdescrdonnees, child="description.Rnw", cache=FALSE>>=
+<<ch01, eval=input$checkdescrdonnees, child="description.Rnw">>=
 @
 
 % Univarié
 
-<<ch02, eval=input$checkunivar, child="univar.Rnw", cache=FALSE>>=
+<<ch02, eval=input$checkunivar, child="univar.Rnw">>=
 @
 
 % Bivarié
 
-<<ch03, eval=input$checkqualiquali, child="qualiquali.Rnw", cache=FALSE>>=
+<<ch03, eval=input$checkqualiquali, child="qualiquali.Rnw">>=
 @
 
-<<ch04, eval=input$checkquantiquanti, child="quantiquanti.Rnw", cache=FALSE>>=
+<<ch04, eval=input$checkquantiquanti, child="quantiquanti.Rnw">>=
 @
 
-<<ch05, eval=input$checkqualiquanti, child="qualiquanti.Rnw", cache=FALSE>>=
+<<ch05, eval=input$checkqualiquanti, child="qualiquanti.Rnw">>=
 @
 
 % Trivarié
 
-<<ch06, eval=input$checkregress2, child="regress2.Rnw", cache=FALSE>>=
+<<ch06, eval=input$checkregress2, child="regress2.Rnw">>=
 @
 
-<<ch07, eval=input$checkanova2, child="anova2.Rnw", cache=FALSE>>=
+<<ch07, eval=input$checkanova2, child="anova2.Rnw">>=
 @
 
-<<ch07, eval=input$checkancova, child="ancova.Rnw", cache=FALSE>>=
+<<ch07, eval=input$checkancova, child="ancova.Rnw">>=
 @
 
 % Fouille multivariée
 
-<<ch08, eval=input$checkacp, child="acp.Rnw", cache=FALSE>>=
+<<ch08, eval=input$checkacp, child="acp.Rnw">>=
 @
 
-<<ch09, eval=input$checkcah, child="cah.Rnw", cache=FALSE>>=
+<<ch09, eval=input$checkcah, child="cah.Rnw">>=
 @
 
 % Cartographie
 
-<<ch10, eval=input$checkcarto, child="carto.Rnw", cache=FALSE>>=
+<<ch10, eval=input$checkcarto, child="carto.Rnw">>=
 @
 
 % Statistiques de test
 
-<<ch11, eval=input$checkdistrib, child="distrib.Rnw", cache=FALSE>>=
+<<ch11, eval=input$checkdistrib, child="distrib.Rnw">>=
 @
 
 \end{document}

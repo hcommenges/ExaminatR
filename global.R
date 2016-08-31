@@ -116,7 +116,7 @@ ScatterPlot <- function(df, varx, vary){
   scatPlot <- ggplot(df) + 
     geom_point(aes_string(x = varx, y = vary), color = "grey60") + 
     geom_smooth(aes_string(x = varx, y = vary), method = "lm", se = FALSE, color = "chocolate") +
-    annotate("text", x = posCoords[1:2], y = posCoords[3:4], label = c(textEq, textR2), family = "Ubu", hjust = sidejust, fontface = "bold")
+    annotate("text", x = posCoords[1:2], y = posCoords[3:4], label = c(textEq, textR2), hjust = sidejust, fontface = "bold")
   
   return(scatPlot)
 }
@@ -296,7 +296,7 @@ CorCircle <- function(dudiobj, xaxis, yaxis){
                  aes_string(x = "XORI", xend = colnames(dfCor)[xaxis], y = "YORI", yend = colnames(dfCor)[yaxis]), 
                  lineend = "round",
                  arrow = arrow(length = unit(0.01, "npc"))) +
-    geom_label(data = dfCor, aes_string(x = colnames(dfCor)[xaxis], y = colnames(dfCor)[yaxis], label = "VARIABLE"), size = 3, hjust = "outward", vjust = "outward", family = "Ubu") +
+    geom_label(data = dfCor, aes_string(x = colnames(dfCor)[xaxis], y = colnames(dfCor)[yaxis], label = "VARIABLE"), size = 3, hjust = "outward", vjust = "outward") +
     scale_x_continuous(name = paste("Composante", xaxis, sep = " "), limits = c(-1.2, 1.2)) +
     scale_y_continuous(name = paste("Composante", yaxis, sep = " "), limits = c(-1.2, 1.2)) +
     coord_equal()
@@ -332,7 +332,7 @@ PlotIndiv <- function(dudiobj, xaxis, yaxis, printlabel = FALSE){
   } else {
     pcaIndivPlot <- ggplot(coordIndiv) +
       geom_hline(yintercept = 0, color = "grey50") + geom_vline(xintercept = 0, color = "grey50") +
-      geom_text(aes_string(x = xString, y = yString, label = "ID"), size = 3, family = "Ubu") +
+      geom_text(aes_string(x = xString, y = yString, label = "ID"), size = 3) +
       scale_x_continuous(name = paste("Composante", xaxis, sep = " ")) +
       scale_y_continuous(name = paste("Composante", yaxis, sep = " "))
   }
@@ -719,9 +719,9 @@ FDistribution <- function(df1, df2, alpha){
 
 # load fonts ----
 
-LoadFonts <- function(){
-  font.add(family = "Ubu", regular = "Ubuntu-L.ttf", bold = "Ubuntu-R.ttf")
-}
+# LoadFonts <- function(){
+#   font.add(family = "Ubu", regular = "Ubuntu-L.ttf", bold = "Ubuntu-R.ttf")
+# }
 
 
 # translate to french ----

@@ -15,7 +15,7 @@
 \emph{Extrait du tableau de données}
 
 
-<<qualiquanti1, echo=FALSE, results='markup', warning=FALSE, message=FALSE, cache=FALSE>>=
+<<qualiquanti1, echo=FALSE, results='markup', warning=FALSE, message=FALSE>>=
 outAnova <- AnovaTab(df = readData(), varx = input$varqualiquanti[2], vary = input$varqualiquanti[1])
 nbColumns1 <- ncol(outAnova$EXTRACT)
 kable(outAnova$EXTRACT, row.names = FALSE, align = rep("r", times = nbColumns1))
@@ -24,7 +24,7 @@ kable(outAnova$EXTRACT, row.names = FALSE, align = rep("r", times = nbColumns1))
 
 \emph{Moyenne et variance par modalité}
 
-<<qualiquanti2, echo=FALSE, results='markup', warning=FALSE, message=FALSE, cache=FALSE>>=
+<<qualiquanti2, echo=FALSE, results='markup', warning=FALSE, message=FALSE>>=
 nbColumns2 <- ncol(outAnova$SUMTAB)
 kable(outAnova$SUMTAB, row.names = FALSE, align = rep("r", times = nbColumns2))
 @
@@ -33,7 +33,7 @@ kable(outAnova$SUMTAB, row.names = FALSE, align = rep("r", times = nbColumns2))
 
 \emph{Graphique}
 
-<<qualiquanti3, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE, cache=FALSE>>=
+<<qualiquanti3, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE>>=
 Boxplot(df = readData(), varx = input$varqualiquanti[2], vary = input$varqualiquanti[1])
 @
 
