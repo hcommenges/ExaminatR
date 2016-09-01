@@ -1,7 +1,9 @@
 library(shiny)
 
 shinyUI(fluidPage(theme = "darkGrey.css",
-                  tags$head(tags$link(rel="shortcut icon", href="favicon.png")),
+                  tags$head(
+                  	tags$link(rel="shortcut icon", href="favicon.png"),
+                  	includeScript("www/analytics.js")),
   
   # TITLE PANEL ----
   
