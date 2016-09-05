@@ -1,9 +1,7 @@
 library(shiny)
 
 shinyUI(fluidPage(theme = "darkGrey.css",
-                  tags$head(
-                  	tags$link(rel="shortcut icon", href="favicon.png"),
-                  	includeScript("www/analytics.js")),
+                  tags$head(tags$link(rel="shortcut icon", href="favicon.png")),
   
   # TITLE PANEL ----
   
@@ -282,14 +280,14 @@ shinyUI(fluidPage(theme = "darkGrey.css",
                    selectInput("discret1", 
                                "Discrétisation", 
                                choices = c("Quantiles" = "quantile",
-                                           "Seuils naturels" = "jenks"),
+                                           "Seuils naturels" = "fisher-jenks"),
                                selected = "", 
                                multiple = FALSE,
                                selectize = TRUE),
                    selectInput("discret2", 
                                "Discrétisation", 
                                choices = c("Quantiles" = "quantile",
-                                           "Seuils naturels" = "jenks"),
+                                           "Seuils naturels" = "fisher-jenks"),
                                selected = "", 
                                multiple = FALSE,
                                selectize = TRUE)),

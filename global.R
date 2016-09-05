@@ -4,10 +4,11 @@
 
 # load packages ----
 
+library(shinythemes)
 library(shiny)
 library(knitr)
 library(scatterplot3d)
-library(showtext)
+#library(showtext)
 library(ade4)
 library(cluster)
 library(ggdendro)
