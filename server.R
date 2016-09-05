@@ -71,7 +71,7 @@ shinyServer(function(session, input, output) {
     setwd(oriDir)
     return(spObject)
     }
-  })
+  )
   
   
   # OUTPUTS ----
