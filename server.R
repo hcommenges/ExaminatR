@@ -61,18 +61,15 @@ shinyServer(function(session, input, output) {
   })
   
   readSpatialData <- reactive({
-    inFile2 <- input$file2
-    if (is.null(inFile2)) {
-      return(NULL)
-    } else {
-      oriDir <- getwd()
-      setwd(tempdir())
-      unzip(zipfile = inFile2$datapath, overwrite = TRUE, exdir = "shpdir")
-      fileName <- list.files("shpdir")[1]
-      layerName <- substr(fileName, start = 1, stop = nchar(fileName) - 4)
-      spObject <- readOGR(dsn = "shpdir", layer = layerName, stringsAsFactors = FALSE)
-      setwd(oriDir)
-      return(spObject)
+    req(input$file2)
+    oriDir <- getwd()
+    setwd(tempdir())
+    unzip(zipfile = input$file2$datapath, overwrite = TRUE, exdir = "shpdir")
+    fileName <- list.files("shpdir")[1]
+    layerName <- substr(fileName, start = 1, stop = nchar(fileName) - 4)
+    spObject <- readOGR(dsn = "shpdir", layer = layerName, stringsAsFactors = FALSE)
+    setwd(oriDir)
+    return(spObject)
     }
   })
   
