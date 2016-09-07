@@ -11,13 +11,13 @@
 
 <<carto1, eval= input$checkcartovar, echo=FALSE, results='markup', dev="png", fig.width=8, dpi=240, fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE>>=
 if(input$varcarto1 != "ø") {
-  CartoVar(spdf = readSpatialData(), df = readData(), idtab = input$idtab, idshape = input$idshape, varquanti = input$varcarto1, discret = input$discret1, nbcl = input$nbcl1)
+  CartoVar(spdf = baseData$spdf, df = baseData$df, idtab = input$idtab, idshape = input$idshape, varquanti = input$varcarto1, discret = input$discret1, nbcl = input$nbcl1)
 }
 @
 
 <<carto2, eval= input$checkcartovar, echo=FALSE, results='markup', dev="png", fig.width=8, dpi=240, fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE>>=
 if(input$varcarto2 != "ø") {
-  CartoVar(spdf = readSpatialData(), df = readData(), idtab = input$idtab, idshape = input$idshape, varquanti = input$varcarto2, discret = input$discret2, nbcl = input$nbcl2)
+  CartoVar(spdf = baseData$spdf, df = baseData$df, idtab = input$idtab, idshape = input$idshape, varquanti = input$varcarto2, discret = input$discret2, nbcl = input$nbcl2)
 }
 @
 
@@ -26,8 +26,8 @@ if(input$varcarto3 == "reg1") {
   if(is.null(input$varquantiquanti)){
     print("Il n'y a pas d'analyse à cartographier")
   } else {
-    CartoRegression(spdf = readSpatialData(), 
-                    df = readData(), 
+    CartoRegression(spdf = baseData$spdf, 
+                    df = baseData$df, 
                     idtab = input$idtab, 
                     idshape = input$idshape, 
                     model = regResults1, 
@@ -37,8 +37,8 @@ if(input$varcarto3 == "reg1") {
   if(is.null(input$varregress2)){
     print("Il n'y a pas d'analyse à cartographier")
   } else {
-    CartoRegression(spdf = readSpatialData(), 
-                    df = readData(), 
+    CartoRegression(spdf = baseData$spdf, 
+                    df = baseData$df, 
                     idtab = input$idtab, 
                     idshape = input$idshape, 
                     model = regResults2, 
@@ -48,8 +48,8 @@ if(input$varcarto3 == "reg1") {
   if(is.null(input$varacp)){
     print("Il n'y a pas d'analyse à cartographier")
   } else {
-    CartoFacto(spdf = readSpatialData(), 
-                    df = readData(), 
+    CartoFacto(spdf = baseData$spdf, 
+                    df = baseData$df, 
                     idtab = input$idtab, 
                     idshape = input$idshape, 
                     model = pcaResults, 
@@ -59,8 +59,8 @@ if(input$varcarto3 == "reg1") {
   if(is.null(input$varcah)){
     print("Il n'y a pas d'analyse à cartographier")
   } else {
-    CartoClass(spdf = readSpatialData(), 
-                    df = readData(), 
+    CartoClass(spdf = baseData$spdf, 
+                    df = baseData$df, 
                     idtab = input$idtab, 
                     idshape = input$idshape, 
                     model = clusProfile)
@@ -74,8 +74,8 @@ if(input$varcarto4 == "reg1") {
   if(is.null(input$varquantiquanti)){
     print("Il n'y a pas d'analyse à cartographier")
   } else {
-    CartoRegression(spdf = readSpatialData(), 
-                    df = readData(), 
+    CartoRegression(spdf = baseData$spdf, 
+                    df = baseData$df, 
                     idtab = input$idtab, 
                     idshape = input$idshape, 
                     model = regResults1, 
@@ -85,8 +85,8 @@ if(input$varcarto4 == "reg1") {
   if(is.null(input$varregress2)){
     print("Il n'y a pas d'analyse à cartographier")
   } else {
-    CartoRegression(spdf = readSpatialData(), 
-                    df = readData(), 
+    CartoRegression(spdf = baseData$spdf, 
+                    df = baseData$df, 
                     idtab = input$idtab, 
                     idshape = input$idshape, 
                     model = regResults2, 
@@ -96,8 +96,8 @@ if(input$varcarto4 == "reg1") {
   if(is.null(input$varacp)){
     print("Il n'y a pas d'analyse à cartographier")
   } else {
-    CartoFacto(spdf = readSpatialData(), 
-                    df = readData(), 
+    CartoFacto(spdf = baseData$spdf, 
+                    df = baseData$df, 
                     idtab = input$idtab, 
                     idshape = input$idshape, 
                     model = pcaResults, 
@@ -107,8 +107,8 @@ if(input$varcarto4 == "reg1") {
   if(is.null(input$varcah)){
     print("Il n'y a pas d'analyse à cartographier")
   } else {
-    CartoClass(spdf = readSpatialData(), 
-                    df = readData(), 
+    CartoClass(spdf = baseData$spdf, 
+                    df = baseData$df, 
                     idtab = input$idtab, 
                     idshape = input$idshape, 
                     model = clusProfile)

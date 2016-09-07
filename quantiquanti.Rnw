@@ -11,11 +11,11 @@
 \end{itemize}
 
 <<quantiquanti, echo=FALSE, results='markup', dev="my_png", fig.ext="png", warning=FALSE, message=FALSE>>=
-regResults1 <- ComputeRegression(df = readData(), 
+regResults1 <- ComputeRegression(df = baseData$df, 
                                vardep = input$varquantiquanti[2], 
                                varindep = input$varquantiquanti[1],
                                ident = input$idtab)
-ScatterPlot(df = readData(), varx = input$varquantiquanti[2], vary = input$varquantiquanti[1])
+ScatterPlot(df = baseData$df, varx = input$varquantiquanti[2], vary = input$varquantiquanti[1])
 @
 
 ~

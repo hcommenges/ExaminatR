@@ -2,16 +2,36 @@ shinyServer(function(session, input, output) {
   
   # READ DATA ----
   
-  readData <- reactive({
-    req(input$file1)
-    mytable <- read.csv(input$file1$datapath, header = TRUE, sep = input$sepcol, dec = input$sepdec, quote = input$quote)
-    return(mytable)
+  baseData <- reactiveValues(spdf = NULL, df = NULL)
+
+  observe({
+    req(input$fileInput)
+    print(baseData$df)
+    baseData$df <- read.csv(file = input$fileInput$datapath,
+                            sep = input$sepcol,
+                            quote = input$quote,
+                            dec = input$sepdec,
+                            stringsAsFactor = FALSE,
+                            check.names = FALSE)
   })
   
   observe({
-    req(readData())
-    columnList <- colnames(readData())
-    columnListShape <- colnames(as.data.frame(readSpatialData()))
+    req(input$shapeInput)
+    oriDir <- getwd()
+    setwd(tempdir())
+    unzip(zipfile = input$shapeInput$datapath, overwrite = TRUE, exdir = "shpdir")
+    fileName <- list.files("shpdir")[1]
+    layerName <- substr(fileName, start = 1, stop = nchar(fileName) - 4)
+    spObject <- readOGR(dsn = "shpdir", layer = layerName, stringsAsFactors = FALSE)
+    setwd(oriDir)
+    baseData$spdf <- spObject
+  })
+
+  
+  observe({
+    req(baseData$df)
+    columnList <- colnames(baseData$df)
+    columnListShape <- colnames(as.data.frame(baseData$spdf))
     updateSelectInput(session = session,
                       inputId = "vartot",
                       choices = columnList)
@@ -59,19 +79,6 @@ shinyServer(function(session, input, output) {
                       choices = c("ø", columnListShape))
     
   })
-  
-  readSpatialData <- reactive({
-    req(input$file2)
-    oriDir <- getwd()
-    setwd(tempdir())
-    unzip(zipfile = input$file2$datapath, overwrite = TRUE, exdir = "shpdir")
-    fileName <- list.files("shpdir")[1]
-    layerName <- substr(fileName, start = 1, stop = nchar(fileName) - 4)
-    spObject <- readOGR(dsn = "shpdir", layer = layerName, stringsAsFactors = FALSE)
-    setwd(oriDir)
-    return(spObject)
-    }
-  )
   
   
   # OUTPUTS ----

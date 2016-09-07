@@ -16,7 +16,7 @@
 
 
 <<qualiquanti1, echo=FALSE, results='markup', warning=FALSE, message=FALSE>>=
-outAnova <- AnovaTab(df = readData(), varx = input$varqualiquanti[2], vary = input$varqualiquanti[1])
+outAnova <- AnovaTab(df = baseData$df, varx = input$varqualiquanti[2], vary = input$varqualiquanti[1])
 nbColumns1 <- ncol(outAnova$EXTRACT)
 kable(outAnova$EXTRACT, row.names = FALSE, align = rep("r", times = nbColumns1))
 @
@@ -34,7 +34,7 @@ kable(outAnova$SUMTAB, row.names = FALSE, align = rep("r", times = nbColumns2))
 \emph{Graphique}
 
 <<qualiquanti3, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE>>=
-Boxplot(df = readData(), varx = input$varqualiquanti[2], vary = input$varqualiquanti[1])
+Boxplot(df = baseData$df, varx = input$varqualiquanti[2], vary = input$varqualiquanti[1])
 @
 
 ~

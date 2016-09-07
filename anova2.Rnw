@@ -12,13 +12,13 @@
 ~
 
 <<anova21, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE>>=
-Boxplot2(df = readData(), varx = input$varanova2[2], vary = input$varanova2[1], groupx = input$varanova2[3])
+Boxplot2(df = baseData$df, varx = input$varanova2[2], vary = input$varanova2[1], groupx = input$varanova2[3])
 @
 
 ~
 
 <<anova22, echo=FALSE, results='markup', warning=FALSE, message=FALSE>>=
-anova2Results <- ComputeRegression(df = readData(), vardep = input$varanova2[1], varindep = input$varanova2[2:3], ident = input$idtab, interact = input$interactanova2, decompvar = FALSE)
+anova2Results <- ComputeRegression(df = baseData$df, vardep = input$varanova2[1], varindep = input$varanova2[2:3], ident = input$idtab, interact = input$interactanova2, decompvar = FALSE)
 kable(anova2Results$TABCOEF)
 @
 

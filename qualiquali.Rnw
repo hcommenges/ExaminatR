@@ -12,7 +12,7 @@
 ~
 
 <<qualiquali0, echo=FALSE, results='markup', dev="my_png", fig.ext="png", fig.pos="H", warning=FALSE, message=FALSE>>=
-Mosaicplot(df = readData(), varx = input$varqualiquali[2], vary = input$varqualiquali[1])
+Mosaicplot(df = baseData$df, varx = input$varqualiquali[2], vary = input$varqualiquali[1])
 @
 
 ~
@@ -20,7 +20,7 @@ Mosaicplot(df = readData(), varx = input$varqualiquali[2], vary = input$varquali
 \emph{Effectifs observés}
 
 <<qualiquali1, echo=FALSE, results='markup', warning=FALSE, message=FALSE>>=
-chiResults <- ContTab(df = readData(), varx = input$varqualiquali[2], vary = input$varqualiquali[1])
+chiResults <- ContTab(df = baseData$df, varx = input$varqualiquali[2], vary = input$varqualiquali[1])
 nbColumns <- ncol(chiResults$OBS)
 kable(chiResults$OBS, align = rep("r", times = nbColumns))
 @
