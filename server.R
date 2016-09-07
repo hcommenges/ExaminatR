@@ -11,7 +11,8 @@ shinyServer(function(session, input, output) {
   observe({
     req(readData())
     columnList <- colnames(readData())
-    columnListShape <- colnames(as.data.frame(readSpatialData()))
+    print(str(columnList))
+   
     updateSelectInput(session = session,
                       inputId = "vartot",
                       choices = columnList)
@@ -54,6 +55,12 @@ shinyServer(function(session, input, output) {
     updateSelectInput(session = session,
                       inputId = "idtab",
                       choices = c("ø", columnList))
+  })
+  
+  observe({
+    req(readSpatialData())
+    columnListShape <- colnames(as.data.frame(readSpatialData()))
+    
     updateSelectInput(session = session,
                       inputId = "idshape",
                       choices = c("ø", columnListShape))
