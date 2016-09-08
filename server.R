@@ -31,7 +31,6 @@ shinyServer(function(session, input, output) {
   observe({
     req(baseData$df)
     columnList <- colnames(baseData$df)
-    columnListShape <- colnames(as.data.frame(baseData$spdf))
     updateSelectInput(session = session,
                       inputId = "vartot",
                       choices = columnList)
@@ -74,11 +73,18 @@ shinyServer(function(session, input, output) {
     updateSelectInput(session = session,
                       inputId = "idtab",
                       choices = c("ø", columnList))
+  })
+  
+  
+  
+  observe({
+    req(baseData$spdf)
+    columnListShape <- colnames(as.data.frame(baseData$spdf))
     updateSelectInput(session = session,
                       inputId = "idshape",
                       choices = c("ø", columnListShape))
-    
   })
+  
   
   
   # OUTPUTS ----
