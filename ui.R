@@ -38,6 +38,7 @@ shinyUI(fluidPage(theme = "darkGrey.css",
         checkboxInput("csvSettings", "Options du format CSV", FALSE),
         conditionalPanel(
           condition = "input.csvSettings == true",
+          selectInput("encodtab", "Codage des charactères", choices = c(UTF8 = "UTF-8", Latin1 = "latin1"), selected = "UTF-8", multiple = FALSE, width = "50%"),
           radioButtons("sepcol", "Separateur de colonnes",
                        c(Virgule = ",",
                          Point_virgule = ";",

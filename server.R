@@ -11,6 +11,7 @@ shinyServer(function(session, input, output) {
                             sep = input$sepcol,
                             quote = input$quote,
                             dec = input$sepdec,
+                            encoding = input$encodtab,
                             stringsAsFactor = FALSE,
                             check.names = FALSE)
   })
