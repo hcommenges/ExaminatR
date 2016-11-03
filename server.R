@@ -6,14 +6,20 @@ shinyServer(function(session, input, output) {
 
   observe({
     req(input$fileInput)
-    print(baseData$df)
-    baseData$df <- read.csv(file = input$fileInput$datapath,
-                            sep = input$sepcol,
-                            quote = input$quote,
-                            dec = input$sepdec,
-                            encoding = input$encodtab,
-                            stringsAsFactor = FALSE,
-                            check.names = FALSE)
+    if(input$sepdec == "." & input$encodtab == "UTF-8"){
+      inputLocale <- locale("fr", encoding = "UTF-8", decimal_mark = ".")
+    } else if(input$sepdec == "," & input$encodtab == "UTF-8") {
+      inputLocale <- locale("fr", encoding = "UTF-8", decimal_mark = ",")
+    } else if(input$sepdec == "." & input$encodtab == "latin1") {
+      inputLocale <- locale("fr", encoding = "latin1", decimal_mark = ".")
+    } else if(input$sepdec == "," & input$encodtab == "latin1") {
+      inputLocale <- locale("fr", encoding = "latin1", decimal_mark = ",")
+    }
+    
+    baseData$df <- as.data.frame(read_delim(file = input$fileInput$datapath,
+                                            delim = input$sepcol,
+                                            quote = input$quote,
+                                            locale = inputLocale))
   })
   
   observe({
